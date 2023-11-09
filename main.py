@@ -1,5 +1,5 @@
 from Experimento import *
-
+from agglomerativeClustering import *
 import matplotlib.pyplot as plt
 
 
@@ -15,40 +15,48 @@ def teste_pop(df):
     plt.ylabel('pop')
     plt.title('Teste= peso do pop nos dados')
 
-    # Rotacionar os nome
+    # Rotaciona os nome
     plt.xticks(rotation=45)
-
-    # Mostrar o gráfico
     plt.show()
 
 
-def plot_values(df):
+def plot_values(df, title: str):
 
     plt.style.use('_mpl-gallery')
+
+    plt.text(2.5, -2, 'Texto abaixo do gráfico', ha='center', va='center', fontsize=12)
 
     x = df.columns.tolist()[0:-1] #['Pop', 'Sertanejo', 'Funk', 'Rock', 'Bandinha', 'Pisadinha',...),dtype='object')
     print(x)
 
     fig, ax = plt.subplots(figsize=(20, 5))
 
-    colors = ['black','blue','green','yellow',]
+    colors  = [
+    'red', 'green', 'blue', 'orange', 'purple', 'brown', 'pink', 'gray', 'olive',
+    'cyan', 'magenta', 'yellow', 'teal', 'indigo', 'salmon', 'lime', 'tan', 'violet', 'aqua', 'lightcoral'
+    ]
 
     for i, linha in df.iterrows():
         y = linha.values[0:-1]
         ax.plot(x, y, label=f'grupo {i}',color=colors[i])
 
-    ax.set(ylim=(0,1))
+
+    #ax.set(ylim=(0,1))
     ax.legend()
     fig.canvas.draw()
     plt.xticks(rotation=45)
+
+    plt.title(title)
     plt.ylabel('gostos')
-    plt.savefig('C:\\Users\\gustavo.alberton\\Documents\\pythonProject1\\dispersão.png',dpi=300, bbox_inches='tight')
+    plt.savefig(f'comparacao{title}.png',dpi=300, bbox_inches='tight')
     plt.show(bbox_inches='tight')
 
 def main():
-    dfg = pd.read_csv('grupos.csv')
-    #teste_pop(dfg)
-    plot_values(dfg)
+    kfg = pd.read_csv('grupos.csv')
+    #teste_pop(kfg)
+    plot_values(kfg,'K-means')
+    hdbdf = pd.read_csv('grupos2.csv')
+    plot_values(hdbdf,'HDBSCAN')
 
 
 if __name__ == "__main__":

@@ -11,7 +11,7 @@ x = data.iloc[:, 1:]
 # Crie o modelo usando K-Means e define parâmetros essenciais (número de grupos/clusters)
 modelo_ia_1 = KMeans(n_clusters=3)
 # Crie o modelo usando HDBScan e define parâmetros essenciais (quantidade mínima de elementos para formar um grupo)
-modelo_ia_2 = HDBSCAN(min_cluster_size=2)
+modelo_ia_2 = HDBSCAN(min_cluster_size=2,store_centers='centroid')
 # Treina o modelo
 modelo_ia_1.fit(x)
 modelo_ia_2.fit(x)
@@ -32,4 +32,16 @@ centros = centros.round(2)
 centros['Nome'] = ['Centro ' + str(i) for i in range(modelo_ia_1.n_clusters)]
 # Salva os resultados em arquivo
 centros.to_csv('grupos.csv', index=False)
+print(centros)
+
+
+
+
+centros2 = pd.DataFrame(modelo_ia_2.centroids_, columns=data.columns.values[1:-2])
+# Arredonda valores com 2 casas decimais
+centros2 = centros2.round(2)
+# Adicione uma coluna para identificar os centros dos grupos
+centros2['Nome'] = ['Centro ' + str(i) for i in range(len(set(modelo_ia_2.labels_)) - (1 if -1 in modelo_ia_2.labels_ else 0))]
+# Salva os resultados em arquivo
+centros2.to_csv('grupos2.csv', index=False)
 print(centros)
