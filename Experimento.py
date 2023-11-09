@@ -36,7 +36,7 @@ print(centros)
 
 
 
-
+# HDBSCAN
 centros2 = pd.DataFrame(modelo_ia_2.centroids_, columns=data.columns.values[1:-2])
 # Arredonda valores com 2 casas decimais
 centros2 = centros2.round(2)
